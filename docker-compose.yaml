@@ -1,0 +1,25 @@
+version: '3.1'
+
+services: 
+
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=eu-central-1
+      - EDGE_PORT=4566
+      - SERVICES=lambdass,s3,cloudwatch
+      - PERSISTENCE=1
+      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "./scripts:/etc/localstack/init/ready.d"
+    networks:
+      - service_network
+
+
+networks:
+  service_network:
+    driver: bridge
